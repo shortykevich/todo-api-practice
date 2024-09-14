@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "todo"
+version = "0.1.0"
+description = ""
+authors = ["Kirill Dvoretsky <shortykofficial@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.114.2"}
+sqlalchemy = "^2.0.34"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
