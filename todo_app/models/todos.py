@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 
 from todo_app.database import Base
+from todo_app.models.users import User
 
 
 class Todo(Base):
@@ -11,3 +12,4 @@ class Todo(Base):
     description = Column(String)
     priority = Column(Integer)
     complete = Column(Boolean, default=False)
+    owner_id = Column(Integer, ForeignKey('users.id'))

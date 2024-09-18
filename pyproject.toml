@@ -4,11 +4,17 @@ version = "0.1.0"
 description = ""
 authors = ["Kirill Dvoretsky <shortykofficial@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = {extras = ["standard"], version = "^0.114.2"}
 sqlalchemy = "^2.0.34"
+passlib = "^1.7.4"
+bcrypt = "4.0.1"
+python-multipart = "^0.0.9"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+python-dotenv = "^1.0.1"
 
 
 [build-system]
