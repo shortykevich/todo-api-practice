@@ -11,26 +11,18 @@ from todo_app.utils.auth import get_current_user
 
 
 router = APIRouter(
-    prefix="/admin",
-    tags=["admin"],
+    prefix='/admin',
+    tags=['admin'],
 )
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
-
-
-@router.get('/users', status_code=status.HTTP_200_OK)
-async def get_users(user: user_dependency, db: db_dependency):
-    if user is None or user.get('role') != 'admin':
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="User unauthorized")
-    return db.query(User).all()
 
 
 @router.get('/todos', status_code=status.HTTP_200_OK)
 async def get_todos(user: user_dependency, db: db_dependency):
     if user is None or user.get('role') != 'admin':
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="User unauthorized")
+                            detail='User unauthorized')
     return db.query(Todo).all()
 
 
@@ -38,7 +30,7 @@ async def get_todos(user: user_dependency, db: db_dependency):
 async def delete_todo(user: user_dependency, db: db_dependency, id: int):
     if user is None or user.get('role') != 'admin':
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="User unauthorized")
+                            detail='User unauthorized')
 
     todo = db.query(Todo).filter(Todo.id == id).first()
     if todo is None:
