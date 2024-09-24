@@ -4,7 +4,7 @@ from todo_app.models.todos import Todo
 from tests.conftest import client, TestingSessionLocal
 
 
-def test_read_all():
+def test_read_all(dependencies_override, test_todo):
     response = client.get('/todos/')
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [{
@@ -17,13 +17,13 @@ def test_read_all():
     }]
 
 
-def test_read_one_not_found():
+def test_read_one_not_found(dependencies_override, test_todo):
     response = client.get('/todos/999')
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {'detail': 'Todo not found.'}
 
 
-def test_add_todo():
+def test_add_todo(dependencies_override, test_todo):
     todo_request = {
         'title': 'Wash your car',
         'description': 'It\' now or never!',
@@ -39,7 +39,7 @@ def test_add_todo():
         assert getattr(model, field) == value
 
 
-def test_update_todo():
+def test_update_todo(dependencies_override, test_todo):
     todo_request = {
         'title': 'Learn to code!',
         'description': 'Need to learn every day',
@@ -54,7 +54,7 @@ def test_update_todo():
     assert model.complete is True
 
 
-def test_update_todo_not_found():
+def test_update_todo_not_found(dependencies_override, test_todo):
     todo_request = {
         'title': 'Learn to code!',
         'description': 'Need to learn every day',
@@ -65,7 +65,7 @@ def test_update_todo_not_found():
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_delete_todo():
+def test_delete_todo(dependencies_override, test_todo):
     response = client.delete('todos/1')
     assert response.status_code == status.HTTP_204_NO_CONTENT
     db = TestingSessionLocal()
@@ -73,6 +73,6 @@ def test_delete_todo():
     assert model is None
 
 
-def test_delete_todo_not_found():
+def test_delete_todo_not_found(dependencies_override, test_todo):
     response = client.delete('todos/999')
     assert response.status_code == status.HTTP_404_NOT_FOUND

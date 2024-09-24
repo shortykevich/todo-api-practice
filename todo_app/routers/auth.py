@@ -28,12 +28,11 @@ async def create_user(db: db_dependency, user_request: UserRequest):
         phone_number=user_request.phone_number,
         is_active=True,
     )
-
     db.add(user_model)
     db.commit()
 
 
-@router.post('/token', response_model=Token)
+@router.post('/token', status_code=status.HTTP_200_OK, response_model=Token)
 async def login_for_access_token(form_data: outh_form_dependency,
                                  db: db_dependency):
     user = authenticate_user(form_data.username, form_data.password, db)

@@ -38,7 +38,7 @@ def override_current_user():
     }
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def dependencies_override():
     app.dependency_overrides[get_db] = override_get_db
     app.dependency_overrides[get_current_user] = override_current_user
@@ -46,8 +46,16 @@ def dependencies_override():
     app.dependency_overrides = {}
 
 
-@pytest.fixture(autouse=True)
-def test_todos():
+@pytest.fixture
+def dependencies_override_not_authenticated():
+    app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = lambda: None
+    yield client
+    app.dependency_overrides = {}
+
+
+@pytest.fixture
+def test_todo():
     todo = Todo(
         title='Learn to code!',
         description='Need to learn every day',
@@ -66,11 +74,11 @@ def test_todos():
         conn.commit()
 
 
-@pytest.fixture(autouse=True)
-def test_users():
+@pytest.fixture
+def test_user():
     user = User(
         username='shortyk',
-        email='shortyofficial@gmail.com',
+        email='shortykofficial@gmail.com',
         first_name='Kirill',
         last_name='Dvoretsky',
         hashed_password=get_password_hash('testpassword'),
